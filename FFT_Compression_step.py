@@ -25,16 +25,10 @@ def select_top_percent(X, top_percent=1):
 
     return np.where(mask)[0], filtered_X[:n_oneside][mask].real, filtered_X[:n_oneside][mask].imag
 
-#load in the arrays
-loaded_data = np.load(r'C:\Users\s2562361\PycharmProjects\pythonProject\Data_arrays\depAvg_V_tidal_array.npy')
-loaded_data = np.load(r"C:\Users\s2562361\PycharmProjects\pythonProject\Data_arrays\depAvg_V_nontidal_highfreq_array.npy")
-loaded_data = np.load(r"C:\Users\s2562361\PycharmProjects\pythonProject\Data_arrays\depAvg_V_nontidal_lowfreq_array.npy")
-loaded_data = np.load(r"C:\Users\s2562361\PycharmProjects\pythonProject\Data_arrays\depAvg_U_tidal_array.npy")
-loaded_data = np.load(r"C:\Users\s2562361\PycharmProjects\pythonProject\Data_arrays\depAvg_U_nontidal_highfreq_array.npy")
-loaded_data = np.load(r"C:\Users\s2562361\PycharmProjects\pythonProject\Data_arrays\depAvg_U_nontidal_lowfreq_array.npy")
-loaded_data = np.load(r'C:\Users\s2562361\PycharmProjects\pythonProject\Data_arrays\surface_elevation_tidal_array.npy')
-loaded_data = np.load(r"C:\Users\s2562361\PycharmProjects\pythonProject\Data_arrays\surface_elevation_nontidal_highfreq_array.npy")
-loaded_data = np.load(r"C:\Users\s2562361\PycharmProjects\pythonProject\Data_arrays\surface_elevation_nontidal_lowfreq_array.npy")
+#load in the arrays, will want to perform this step on the tidal, non-tidal high freq and non-tidal low freq arrays created in the decomposition step
+loaded_data = np.load(r'e.g tidal freq array')
+loaded_data = np.load(r'e.g non-tidal high freq array')
+loaded_data = np.load(r'e.g non-tidal low freq array')
 
 # Define parameters
 N = 25920
@@ -62,15 +56,10 @@ for idx in range(loaded_data.shape[0]):
     print(f"Index {idx}: Frequencies kept = {len(indices)}")
 
 # Save the filtered data using pickle
-with open(r"C:\Users\s2562361\PycharmProjects\pythonProject\Compressed_files\filtered_VTF.pkl", 'wb') as f:
-with open(r"C:\Users\s2562361\PycharmProjects\pythonProject\Compressed_files\filtered_VHF.pkl", 'wb') as f:
-with open(r"C:\Users\s2562361\PycharmProjects\pythonProject\Compressed_files\filtered_VLF.pkl", 'wb') as f:
-with open(r"C:\Users\s2562361\PycharmProjects\pythonProject\Compressed_files\filtered_UTF.pkl", 'wb') as f:
-with open(r"C:\Users\s2562361\PycharmProjects\pythonProject\Compressed_files\filtered_UHF.pkl", 'wb') as f:
-with open(r"C:\Users\s2562361\PycharmProjects\pythonProject\Compressed_files\filtered_ULF.pkl", 'wb') as f:
-with open(r"C:\Users\s2562361\PycharmProjects\pythonProject\Compressed_files\filtered_STF.pkl", 'wb') as f:
-with open(r"C:\Users\s2562361\PycharmProjects\pythonProject\Compressed_files\filtered_SHF.pkl", 'wb') as f:
-with open(r"C:\Users\s2562361\PycharmProjects\pythonProject\Compressed_files\filtered_SLF.pkl", 'wb') as f:
+with open(r"tidal freq file name", 'wb') as f:
+with open(r"non-tidal high freq file name", 'wb') as f:
+with open(r"non-tidal low freq file name", 'wb') as f:
+
     pickle.dump({
         'indices': filtered_indices,
         'real_parts': filtered_real_parts,
