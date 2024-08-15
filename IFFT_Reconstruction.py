@@ -6,15 +6,9 @@ import pickle
 
 
 # Load in the Compressed Files
-with open(r"/Main_Compressed_files/filtered_VTF.pkl", 'rb') as f:
-with open(r"/Main_Compressed_files/filtered_VHF.pkl", 'rb') as f:
-with open(r"/Main_Compressed_files/filtered_VLF.pkl", 'rb') as f:
-with open(r"/Main_Compressed_files/filtered_UTF.pkl", 'rb') as f:
-with open(r"/Main_Compressed_files/filtered_UHF.pkl", 'rb') as f:
-with open(r"/Main_Compressed_files/filtered_ULF.pkl", 'rb') as f:
-with open(r"/Main_Compressed_files/filtered_STF.pkl", 'rb') as f:
-with open(r"/Main_Compressed_files/filtered_SHF.pkl", 'rb') as f:
-with open(r"/Main_Compressed_files/filtered_SLF.pkl", 'rb') as f:
+with open(r"tidal freq compressed file.pkl", 'rb') as f:
+with open(r"non-tidal high freq compressed file.pkl", 'rb') as f:
+with open(r"/non-tidal low freq compressed file.pkl", 'rb') as f:
     data = pickle.load(f)
 
 #Extract the list of arrays
@@ -48,31 +42,10 @@ for idx in range(137):
     reconstructed_signals[idx, :] = ifft(spectrum).real
 
 #Save the reconstructed signal(s)
-np.save(r"/reconstructed_arrays/Main_reconstructed_signal_V_tidal.npy", reconstructed_signals)
-np.save(r"/reconstructed_arrays/Main_reconstructed_signal_V_highfreq.npy", reconstructed_signals)
-np.save(r"/reconstructed_arrays/Main_reconstructed_signal_V_lowfreq.npy", reconstructed_signals)
-np.save(r"/reconstructed_arrays/Main_reconstructed_signal_U_tidal.npy", reconstructed_signals)
-np.save(r"/reconstructed_arrays/Main_reconstructed_signal_U_highfreq.npy", reconstructed_signals)
-np.save(r"/reconstructed_arrays/Main_reconstructed_signal_U_lowfreq.npy", reconstructed_signals)
-np.save(r"/reconstructed_arrays/Main_reconstructed_signal_S_tidal.npy", reconstructed_signals)
-np.save(r"/reconstructed_arrays/Main_reconstructed_signal_S_highfreq.npy", reconstructed_signals)
-np.save(r"/reconstructed_arrays/Main_reconstructed_signal_S_lowfreq.npy", reconstructed_signals)
+np.save(r"reconstructed tidal freq.npy", reconstructed_signals)
+np.save(r"reconstructed non-tidal high freq.npy", reconstructed_signals)
+np.save(r"reconstructed non-tidal low-freq.npy", reconstructed_signals)
 
-#Load the reconstructed component signals, plus the mean of the original U, V, and SE
-reconstructed_signal_T = np.load(r"/reconstructed_arrays/Main_reconstructed_signal_S_tidal.npy")
-reconstructed_signal_high = np.load(r"/reconstructed_arrays/Main_reconstructed_signal_S_highfreq.npy")
-reconstructed_signal_low = np.load(r"/reconstructed_arrays/Main_reconstructed_signal_S_lowfreq.npy")
-mean_values = np.load(r"/Main_Channel_Data_Arrays/MainSE_mean_values.npy")
-
-reconstructed_signal_T = np.load(r"/reconstructed_arrays/Main_reconstructed_signal_U_tidal.npy")
-reconstructed_signal_high = np.load(r"/reconstructed_arrays/Main_reconstructed_signal_U_highfreq.npy")
-reconstructed_signal_low = np.load(r"/reconstructed_arrays/Main_reconstructed_signal_U_lowfreq.npy")
-mean_values = np.load(r"/Main_Channel_Data_Arrays/MainU_mean_values.npy")
-
-reconstructed_signal_T = np.load(r"/reconstructed_arrays/Main_reconstructed_signal_V_tidal.npy")
-reconstructed_signal_high = np.load(r"/reconstructed_arrays/Main_reconstructed_signal_V_highfreq.npy")
-reconstructed_signal_low = np.load(r"/reconstructed_arrays/Main_reconstructed_signal_V_lowfreq.npy")
-mean_values = np.load(r"/Main_Channel_Data_Arrays/MainV_mean_values.npy")
 
 #Initialize an array to store the fully reconstructed signal
 reconstruction = np.zeros_like(reconstructed_signals)
@@ -81,5 +54,5 @@ reconstruction = np.zeros_like(reconstructed_signals)
 for i in range(reconstructed_signals.shape[0]):
     z = mean_values[i]
     reconstruction[i] = (z + reconstructed_signal_T[i] + reconstructed_signal_low[i] + reconstructed_signal_high[i])
-
+#Signal is now reconstructed
 Print(reconstructed_signals.shape)
