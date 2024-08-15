@@ -9,12 +9,9 @@ from ocmw.dataproc.ocmw_extract import load_ocmw_file
 from pandas import date_range
 from utide import reconstruct, solve
 from ocmw.core.timeFuncs import datetimeFromNum
-import psutil
-import time
-import threading
 
 # Load data
-data = load_ocmw_file(r'C:\Users\s2562361\PycharmProjects\ORK_BASE\EXTRACT', '2DModels_transect_merged.mat')
+data = load_ocmw_file(r'File Path', 'File Name')
 print(data.keys())
 U_data = data['depAvg_U']
 V_data = data['depAvg_V']
@@ -27,9 +24,7 @@ d_data = data['depth']
 surface_elevation = data['height']
 
 
-assert surface_elevation.shape[0] % 90 == 0, "The number of rows should be a multiple of 90"
-
-# Reshape the data
+# Reshape the data, with number of nodes in rows and time intervals as columns, in this case the transect had 92 points, and time interval was every 5 mins for 90 days
 reshaped_data = np.zeros((92, 26010))
 
 # Iterate over the blocks of 92 rows
@@ -49,13 +44,11 @@ total_columns = reshaped_data.shape[1]
 columns_to_keep = np.array([i for i in range(total_columns) if (i + 1) % 289 != 0])
 
 reshaped_data_final = reshaped_data[:, columns_to_keep]
-#np.save(r"C:\Users\s2562361\PycharmProjects\pythonProject\Original_Datasets\Original_U", reshaped_data_final)
-#np.save(r"C:\Users\s2562361\PycharmProjects\pythonProject\Original_Datasets\Original_V", reshaped_data_final)
-#np.save(r"C:\Users\s2562361\PycharmProjects\pythonProject\Original_Datasets\Original_SE", reshaped_data_final)
+#save reshaped data
+#np.save(r"File path", reshaped_data_final)
 
-#obtain the mean of each point for each time-series
+#obtain the mean of each point for each time-series, this will be needed later for reconstruction
 mean_values = np.mean(reshaped_data_final, axis=1)
-print(mean_values.shape)
 
 start_time = pd.to_datetime('2014-09-16 00:00')
 t = date_range(start=start_time, periods=25920, freq='5min')
@@ -141,7 +134,7 @@ print(nontidal_highfreq_array.shape)
 
 
 #Save the arrays
-np.save(r"C:\Users\s2562361\PycharmProjects\pythonProject\Data_arrays\surface_elevation_tidal_array.npy", tidal_array)
-np.save(r"C:\Users\s2562361\PycharmProjects\pythonProject\Data_arrays\surface_elevation_nontidal_lowfreq_array.npy", nontidal_lowfreq_array)
-np.save(r"C:\Users\s2562361\PycharmProjects\pythonProject\Data_arrays\surface_elevation_nontidal_highfreq_array.npy", nontidal_highfreq_array)
-np.save(r'C:\Users\s2562361\PycharmProjects\pythonProject\Data_arrays\SE_mean_values.npy', mean_values)
+np.save(r"File Path", tidal_array)
+np.save(r"File Path", nontidal_lowfreq_array)
+np.save(r"File Path", nontidal_highfreq_array)
+np.save(r'File Path', mean_values)
